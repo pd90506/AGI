@@ -36,14 +36,14 @@ parser.add_argument('--model-type', type=str, default='resnet152', help='the typ
 # parser.add_argument('--img', type=str, default='n01882714_11334_koala_bear.jpg', help='the images name')
 parser.add_argument('--eps', type=float, default=0.05, help='epsilon value, aka step size')
 parser.add_argument('--iter', type=int, default=20, help="Set the maximum number of adversarial searching iterations")
-parser.add_argument('--topk', type=int, default=1, help="Set the k adversarial classes to look for")
+parser.add_argument('--topk', type=int, default=5, help="Set the k adversarial classes to look for")
 
 args = parser.parse_args("") # this is only for test purpose
 # args = parser.parse_args() # use this if runing as script!
 # %%
 epsilon = args.eps
 use_cuda=args.cuda
-device = torch.device("cuda:1" if (use_cuda and torch.cuda.is_available()) else "cpu")
+device = torch.device("cuda:0" if (use_cuda and torch.cuda.is_available()) else "cpu")
 max_iter = args.iter
 topk = args.topk
 # selected_ids = range(0,999,int(1000/topk)) # define the ids of the selected adversarial class
@@ -140,7 +140,7 @@ for idx, img_name in enumerate(img_list):
     example = test(model, device, img, epsilon, topk)
     examples.append(example)
     if (idx+1) % factor == 0:
-        f_name = 'results/resnet_1step/resnet_1subclass_' + str((idx+1)//factor)+ "_.txt"
+        f_name = 'results/resnet_5step/resnet_5subclass_' + str((idx+1)//factor)+ "_.txt"
         with open(f_name, 'wb') as file:
             pickle.dump(examples, file)
         examples = []

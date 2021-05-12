@@ -24,17 +24,17 @@ import json # for loading label names
 parser = argparse.ArgumentParser(description='AGI')
 parser.add_argument('--cuda', action='store_true', default=True, help='if use the cuda to do the accelartion')
 parser.add_argument('--model-type', type=str, default='inception', help='the type of network')
-parser.add_argument('--img', type=str, default='n01882714_11334_koala_bear.jpg', help='the images name')
+parser.add_argument('--img', type=str, default='n07880968_5436_burrito.jpg', help='the images name')
 parser.add_argument('--eps', type=float, default=0.05, help='epsilon value, aka step size')
-parser.add_argument('--iter', type=int, default=50, help="Set the maximum number of adversarial searching iterations")
-parser.add_argument('--topk', type=int, default=20, help="Set the k adversarial classes to look for")
+parser.add_argument('--iter', type=int, default=15, help="Set the maximum number of adversarial searching iterations")
+parser.add_argument('--topk', type=int, default=15, help="Set the k adversarial classes to look for")
 
 args = parser.parse_args("") # this is only for test purpose
 # args = parser.parse_args() # use this if runing as script!
 # %%
 epsilon = args.eps
 use_cuda=args.cuda
-device = torch.device("cuda:1" if (use_cuda and torch.cuda.is_available()) else "cpu")
+device = torch.device("cuda:0" if (use_cuda and torch.cuda.is_available()) else "cpu")
 max_iter = args.iter
 topk = args.topk
 selected_ids = range(0,999,int(1000/topk)) # define the ids of the selected adversarial class
@@ -68,9 +68,9 @@ print()
 # %%
 img = cv2.imread('examples/' + args.img)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-# if args.model_type == 'inception':
-#     # the input image's size is different
-#     img = cv2.resize(img, (299, 299))
+if args.model_type == 'inception':
+    # the input image's size is different
+    img = cv2.resize(img, (224, 224))
 
 img = img.astype(np.float32) 
 # img = img[:, :, (2, 1, 0)]
