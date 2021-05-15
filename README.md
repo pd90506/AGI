@@ -15,3 +15,6 @@ In the paper, we choose `iter=20` and `k=20`.
 
 # Examples
 Below are some examples we tested on the ImageNet dataset, using the InceptionV3 pretrained classification model.
+![img](https://github.com/pd90506/AGI/blob/master/Figures/Inception.png)
+
+Additional examples can be found [here](https://github.com/pd90506/AGI/blob/master/Figures/additional%20results.pdf).
