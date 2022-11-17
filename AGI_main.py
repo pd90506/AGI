@@ -87,7 +87,7 @@ model = nn.Sequential(norm_layer, model).to(device)
 def fgsm_step(image, epsilon, data_grad_adv, data_grad_lab):
     # generate the perturbed image based on steepest descent
     grad_lab_norm = torch.norm(data_grad_lab,p=2)
-    delta = epsilon * data_grad_adv.sign()
+    delta = epsilon * (data_grad_adv / grad_lab_norm).sign()
 
     # + delta because we are ascending
     perturbed_image = image + delta
